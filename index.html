@@ -1,0 +1,311 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Viajemos por el Mundo</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Shrikhand&family=Outfit:wght@400;600;800&family=Space+Mono:wght@400;700&display=swap">
+<style>
+/* Layout: one centered "boarding" card per step, tropical sunset backdrop, passport stamps collect as she answers */
+:root{
+  --sun:#FF7A1A; --mango:#FFB23F; --coral:#FF4F6D; --pink:#FF8FB8;
+  --sea:#0FB5AE; --ink:#2A1033; --paper:#FFF6EC; --muted:#7A5A6E;
+  --display:"Shrikhand","Georgia",serif;
+  --body:"Outfit",system-ui,-apple-system,sans-serif;
+  --mono:"Space Mono",ui-monospace,Menlo,monospace;
+  color-scheme:light;
+}
+*{box-sizing:border-box}
+html,body{height:100%}
+body{
+  margin:0;font-family:var(--body);color:var(--ink);
+  background:radial-gradient(120% 80% at 50% 0%,var(--mango) 0%,var(--sun) 38%,var(--coral) 72%,#C2186B 100%);
+  background-attachment:fixed;
+  padding-left:max(16px,env(safe-area-inset-left,0px));
+  padding-right:max(16px,env(safe-area-inset-right,0px));
+  overflow-x:hidden;
+}
+.sky{position:fixed;inset:0;pointer-events:none;overflow:hidden;z-index:0}
+.sun{position:absolute;left:50%;bottom:-22vmin;width:70vmin;height:70vmin;transform:translateX(-50%);border-radius:50%;
+  background:repeating-linear-gradient(180deg,rgba(255,246,236,.55) 0 14px,transparent 14px 26px);opacity:.5}
+.palm{position:absolute;font-size:0}
+.plane{position:absolute;top:12%;left:-80px;width:60px;height:24px;animation:fly 14s linear infinite}
+.plane svg{width:100%;height:100%;fill:var(--paper);opacity:.85}
+@keyframes fly{to{transform:translateX(calc(100vw + 160px)) translateY(-40px)}}
+main{position:relative;z-index:1;min-height:100%;display:grid;place-items:center;padding-block:28px}
+.card{
+  width:min(440px,100%);background:var(--paper);border-radius:28px;padding:28px 24px 26px;
+  box-shadow:0 24px 60px rgba(90,10,50,.35);position:relative;
+  animation:pop .5s cubic-bezier(.2,1.4,.4,1);
+}
+@keyframes pop{from{transform:scale(.92) translateY(14px);opacity:.4}}
+.eyebrow{font-family:var(--mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--muted)}
+h1,h2{font-family:var(--display);font-weight:400;line-height:1.05;margin:10px 0 12px;text-wrap:balance;color:var(--coral)}
+h1{font-size:clamp(34px,10vw,46px)}
+h2{font-size:clamp(28px,8vw,36px)}
+p{line-height:1.5;margin:0 0 14px;font-size:16px}
+.btns{display:flex;flex-wrap:wrap;gap:12px;margin-top:18px;position:relative;min-height:56px}
+button{font-family:var(--body);font-weight:800;font-size:17px;border:0;border-radius:999px;padding:15px 24px;cursor:pointer;
+  transition:transform .15s ease, background .2s}
+button:focus-visible{outline:3px solid var(--sea);outline-offset:3px}
+.yes{background:var(--sun);color:var(--paper);box-shadow:0 6px 0 #C24E00}
+.yes:active{transform:translateY(4px);box-shadow:0 2px 0 #C24E00}
+.no{background:transparent;color:var(--muted);border:2px dashed var(--pink)}
+.opt{display:block;width:100%;text-align:left;background:#FFE7D1;color:var(--ink);font-weight:600;padding:16px 18px;border-radius:18px}
+.opt:hover{background:#FFD3AE}
+.opt.picked{background:var(--sea);color:var(--paper)}
+.opts{display:grid;gap:10px;margin-top:16px}
+.quip{min-height:24px;font-weight:600;color:var(--sea);margin-top:12px}
+.stamps{display:flex;gap:8px;justify-content:center;margin-top:18px}
+.stamp{width:46px;height:46px;border-radius:50%;border:2px dashed #E5C9B4;display:grid;place-items:center;
+  font-family:var(--mono);font-size:9px;font-weight:700;color:transparent;transform:rotate(-12deg)}
+.stamp.on{border:3px solid var(--coral);color:var(--coral);animation:stampin .35s ease}
+@keyframes stampin{from{transform:scale(1.8) rotate(-30deg);opacity:0}}
+/* flap board */
+.board{display:flex;gap:4px;justify-content:center;margin:18px 0 6px;flex-wrap:wrap}
+.flap{width:30px;height:42px;background:var(--ink);color:var(--mango);border-radius:6px;display:grid;place-items:center;
+  font-family:var(--mono);font-weight:700;font-size:22px;position:relative}
+.flap::after{content:"";position:absolute;left:0;right:0;top:50%;height:1px;background:rgba(255,246,236,.25)}
+/* ticket */
+.ticket{background:var(--ink);color:var(--paper);border-radius:22px;overflow:hidden;margin-top:16px}
+.t-top{padding:20px 20px 16px;background:linear-gradient(135deg,var(--sun),var(--coral))}
+.t-top .eyebrow{color:rgba(255,246,236,.85)}
+.t-artist{font-family:var(--display);font-size:clamp(34px,10vw,44px);line-height:1;margin:6px 0 4px}
+.t-tour{font-weight:800;letter-spacing:.04em;text-transform:uppercase;font-size:13px}
+.t-perf{height:0;border-top:3px dashed rgba(255,246,236,.35);margin:0 16px;position:relative}
+.t-body{padding:16px 20px 20px;display:grid;grid-template-columns:1fr 1fr;gap:14px 12px}
+.t-body div{min-width:0}
+.k{font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--pink)}
+.v{font-weight:800;font-size:16px;margin-top:3px;font-variant-numeric:tabular-nums}
+.full{grid-column:1/-1}
+.perks{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:16px}
+.perk{background:#FFE7D1;border-radius:16px;padding:14px}
+.perk b{display:block;font-size:15px}
+.perk span{font-size:13px;color:var(--muted)}
+.perk svg{width:26px;height:26px;stroke:var(--coral);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;margin-bottom:6px}
+.sig{font-family:var(--display);color:var(--sun);font-size:24px;margin-top:6px}
+.small{font-size:13px;color:var(--muted)}
+canvas#fx{position:fixed;inset:0;pointer-events:none;z-index:5}
+[hidden]{display:none!important}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+
+<div class="sky" aria-hidden="true">
+  <div class="sun"></div>
+  <div class="plane"><svg viewBox="0 0 60 24"><path d="M2 12 L22 10 L34 1 L39 1 L32 10 L50 9 L56 3 L59 3 L56 12 L59 21 L56 21 L50 15 L32 14 L39 23 L34 23 L22 14 Z"/></svg></div>
+</div>
+<canvas id="fx"></canvas>
+
+<main>
+  <!-- 0 -->
+  <section class="card step" data-step="0">
+    <div class="eyebrow">Pasaporte personal · Nº 12·02</div>
+    <h1>Tengo algo para ti, mi amor</h1>
+    <p>Es un viaje. Pero antes de mostrarte el destino, necesito hacerte una pregunta muy importante.</p>
+    <div class="btns"><button class="yes" data-next>Ábrelo ✈</button></div>
+  </section>
+
+  <!-- 1 -->
+  <section class="card step" data-step="1" hidden>
+    <div class="eyebrow">Pregunta oficial</div>
+    <h1>¿Aceptas viajar por el mundo conmigo?</h1>
+    <div class="btns" id="ynWrap">
+      <button class="yes" data-next>¡Sí, acepto!</button>
+      <button class="no" id="noBtn">No</button>
+    </div>
+    <div class="quip" id="noQuip"></div>
+  </section>
+
+  <!-- 2,3,4 quiz -->
+  <section class="card step quiz" data-step="2" hidden>
+    <div class="eyebrow">Control de equipaje · 1 de 3</div>
+    <h2>Para este viaje, ¿qué va en la maleta?</h2>
+    <div class="opts">
+      <button class="opt" data-q="Brillo, botas y mucha actitud.">Botas y sombrero vaquero</button>
+      <button class="opt" data-q="Rosa y naranja. Así tiene que ser.">Algo rosa y algo naranja</button>
+      <button class="opt" data-q="Perfecto, que de eso hay de sobra donde vamos.">Nada, lo compro allá</button>
+    </div>
+    <div class="quip"></div>
+    <div class="stamps"></div>
+  </section>
+
+  <section class="card step quiz" data-step="3" hidden>
+    <div class="eyebrow">Control de equipaje · 2 de 3</div>
+    <h2>¿Qué no puede faltar en el viaje?</h2>
+    <div class="opts">
+      <button class="opt" data-q="Anotado: perrear hasta que se acabe la noche.">Bailar hasta que cierren</button>
+      <button class="opt" data-q="Tranquila, la barra está incluida.">Un trago bien frío en la mano</button>
+      <button class="opt" data-q="Esa ya la tenía yo en la lista.">Tú y yo juntas, nada más</button>
+    </div>
+    <div class="quip"></div>
+    <div class="stamps"></div>
+  </section>
+
+  <section class="card step quiz" data-step="4" hidden>
+    <div class="eyebrow">Control de equipaje · 3 de 3</div>
+    <h2>¿Y la voz? ¿Lista para cantar a todo pulmón?</h2>
+    <div class="opts">
+      <button class="opt" data-q="Eso pensaba. Ya casi llegamos.">Nací lista</button>
+      <button class="opt" data-q="Sí, pero ya sabemos que te sabes todas.">Me sé todas, no voy a mentir</button>
+      <button class="opt" data-q="Vas a terminar sin voz y feliz.">Llevo pastillas para la garganta</button>
+    </div>
+    <div class="quip"></div>
+    <div class="stamps"></div>
+  </section>
+
+  <!-- 5 destino -->
+  <section class="card step" data-step="5" hidden>
+    <div class="eyebrow">Panel de salidas · Puerta 20h</div>
+    <h2>Tu destino es…</h2>
+    <div class="board" id="board1"></div>
+    <div class="board" id="board2"></div>
+    <p class="small" style="text-align:center">Toca el botón para ver tu pase de abordar.</p>
+    <div class="btns" style="justify-content:center"><button class="yes" data-next>Ver mi pase</button></div>
+  </section>
+
+  <!-- 6 ticket -->
+  <section class="card step" data-step="6" hidden>
+    <div class="eyebrow">Pase de abordar · 2 pasajeras</div>
+    <div class="ticket">
+      <div class="t-top">
+        <div class="eyebrow">Nos vamos a ver a</div>
+        <div class="t-artist">KAROL G</div>
+        <div class="t-tour">Viajando por el Mundo · Tropitour</div>
+      </div>
+      <div class="t-perf"></div>
+      <div class="t-body">
+        <div><div class="k">Fecha</div><div class="v">Vie 12 feb 2027</div></div>
+        <div><div class="k">Show</div><div class="v">20:00</div></div>
+        <div><div class="k">Puertas</div><div class="v">16:00</div></div>
+        <div><div class="k">Asiento</div><div class="v">A tu lado</div></div>
+        <div class="full"><div class="k">Lugar</div><div class="v">Mercado Livre Arena Pacaembu · São Paulo</div></div>
+        <div class="full"><div class="k">Sector</div><div class="v">Camarote Backstage Mirante</div></div>
+      </div>
+    </div>
+    <div class="perks">
+      <div class="perk"><svg viewBox="0 0 24 24"><path d="M8 22h8M12 15v7M5 3h14l-7 12z"/></svg><b>Open bar</b><span>Drinks, chopp, vinos y más</span></div>
+      <div class="perk"><svg viewBox="0 0 24 24"><path d="M3 11h18M5 11a7 7 0 0 1 14 0M4 15h16l-1 3H5z"/></svg><b>Open food</b><span>Comida toda la noche</span></div>
+      <div class="perk"><svg viewBox="0 0 24 24"><circle cx="6" cy="7" r="3"/><circle cx="6" cy="17" r="3"/><path d="M8.5 8.5 20 18M8.5 15.5 20 6"/></svg><b>Salón de belleza</b><span>Para salir divina al show</span></div>
+      <div class="perk"><svg viewBox="0 0 24 24"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg><b>After party</b><span>La fiesta sigue 2 h más</span></div>
+    </div>
+    <div class="btns"><button class="yes" data-next style="width:100%">Una última pregunta…</button></div>
+  </section>
+
+  <!-- 7 final ask -->
+  <section class="card step" data-step="7" hidden>
+    <div class="eyebrow">Confirmación de vuelo</div>
+    <h1>¿Vienes conmigo a ver a Karol G?</h1>
+    <p>Camarote Backstage Mirante, 12 de febrero, tú y yo cantando hasta quedarnos sin voz.</p>
+    <div class="btns">
+      <button class="yes" id="finalYes" style="flex:1">¡Sí, voy contigo!</button>
+      <button class="yes" id="finalYes2" style="flex:1;background:var(--coral);box-shadow:0 6px 0 #A8203A">¡Obvio que sí!</button>
+    </div>
+  </section>
+
+  <!-- 8 done -->
+  <section class="card step" data-step="8" hidden>
+    <div class="eyebrow">Vuelo confirmado ✓</div>
+    <h1>¡Nos vamos, mi amor!</h1>
+    <p>Gracias por aceptar este viaje y todos los que vienen. El 12 de febrero vamos a bailar, cantar, comer, brindar y quedarnos en el after hasta el final.</p>
+    <p>Prepárate para la mejor noche del año.</p>
+    <div class="sig">Con todo mi amor, Luane</div>
+    <div class="btns"><button class="no" id="again">Ver el pase otra vez</button></div>
+  </section>
+</main>
+
+<script>
+(function(){
+  const steps=[...document.querySelectorAll('.step')];
+  let cur=0;
+  const stampsDone=[];
+  function show(i){
+    steps[cur].hidden=true; cur=i; steps[cur].hidden=false;
+    window.scrollTo({top:0,behavior:'smooth'});
+    const s=steps[cur];
+    if(s.classList.contains('quiz')) renderStamps(s);
+    if(cur===5) runBoard();
+    if(cur===6) burst(80);
+  }
+  document.querySelectorAll('[data-next]').forEach(b=>b.addEventListener('click',()=>show(cur+1)));
+
+  // "No" que escapa
+  const noBtn=document.getElementById('noBtn'), noQuip=document.getElementById('noQuip');
+  const noLines=['¿Segura? Piénsalo bien…','Ese botón no funciona hoy.','Intenta otra vez 😌','Ya sé que quieres decir que sí.','Ok, ahora solo queda el sí.'];
+  let noCount=0;
+  function dodge(e){
+    if(e) e.preventDefault();
+    noQuip.textContent=noLines[Math.min(noCount,noLines.length-1)];
+    noCount++;
+    const w=document.getElementById('ynWrap').getBoundingClientRect();
+    const maxX=Math.max(0,w.width-noBtn.offsetWidth), maxY=60;
+    noBtn.style.position='absolute';
+    noBtn.style.left=Math.random()*maxX+'px';
+    noBtn.style.top=(Math.random()*maxY)+'px';
+    noBtn.style.transform='scale('+Math.max(.4,1-noCount*.15)+')';
+    if(noCount>=5) noBtn.hidden=true;
+  }
+  noBtn.addEventListener('mouseenter',dodge);
+  noBtn.addEventListener('touchstart',dodge,{passive:false});
+  noBtn.addEventListener('click',dodge);
+
+  // Quiz
+  const stampLabels=['SÃO PAULO','TROPI','12·02'];
+  function renderStamps(s){
+    const box=s.querySelector('.stamps'); box.innerHTML='';
+    stampLabels.forEach((l,i)=>{const d=document.createElement('div');d.className='stamp'+(stampsDone[i]?' on':'');d.textContent=l;box.appendChild(d)});
+  }
+  document.querySelectorAll('.quiz').forEach((s,qi)=>{
+    s.querySelectorAll('.opt').forEach(o=>o.addEventListener('click',()=>{
+      if(s.dataset.done) return; s.dataset.done=1;
+      o.classList.add('picked');
+      s.querySelector('.quip').textContent=o.dataset.q;
+      stampsDone[qi]=true; renderStamps(s); burst(25);
+      setTimeout(()=>show(cur+1),1500);
+    }));
+  });
+
+  // Panel de salidas
+  const CH='ABCDEFGHIJKLMNOPQRSTUVWXYZ·';
+  function board(el,word){
+    el.innerHTML='';
+    [...word].forEach((c,i)=>{
+      const f=document.createElement('div');f.className='flap';f.textContent=c===' '?'':'·';el.appendChild(f);
+      if(c===' ') {f.style.background='transparent';return}
+      let n=0; const total=8+i*2;
+      const t=setInterval(()=>{f.textContent=CH[Math.floor(Math.random()*CH.length)];if(++n>=total){clearInterval(t);f.textContent=c}},60);
+    });
+  }
+  function runBoard(){board(document.getElementById('board1'),'KAROL G');setTimeout(()=>board(document.getElementById('board2'),'SÃO PAULO'),500)}
+
+  function done(){show(8);burst(220);setTimeout(()=>burst(160),700)}
+  document.getElementById('finalYes').addEventListener('click',done);
+  document.getElementById('finalYes2').addEventListener('click',done);
+  document.getElementById('again').addEventListener('click',()=>show(6));
+
+  // Confeti
+  const cv=document.getElementById('fx'),ctx=cv.getContext('2d');let parts=[],raf=null;
+  const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+  function size(){cv.width=innerWidth*devicePixelRatio;cv.height=innerHeight*devicePixelRatio}
+  size();addEventListener('resize',size);
+  const cols=['#FF7A1A','#FFB23F','#FF4F6D','#FF8FB8','#0FB5AE','#FFF6EC'];
+  function burst(n){
+    if(reduce) return;
+    for(let i=0;i<n;i++)parts.push({x:cv.width/2,y:cv.height*0.35,vx:(Math.random()-.5)*18*devicePixelRatio,vy:(Math.random()*-14-4)*devicePixelRatio,
+      s:(4+Math.random()*6)*devicePixelRatio,r:Math.random()*6,vr:(Math.random()-.5)*.3,c:cols[i%cols.length],life:0,heart:Math.random()<.25});
+    if(!raf) tick();
+  }
+  function heart(x,y,s){ctx.beginPath();ctx.moveTo(0,s*.3);ctx.bezierCurveTo(0,0,-s,0,-s,s*.3);ctx.bezierCurveTo(-s,s*.7,0,s,0,s*1.2);ctx.bezierCurveTo(0,s,s,s*.7,s,s*.3);ctx.bezierCurveTo(s,0,0,0,0,s*.3);ctx.fill()}
+  function tick(){
+    ctx.clearRect(0,0,cv.width,cv.height);
+    parts=parts.filter(p=>p.life<220&&p.y<cv.height+40);
+    parts.forEach(p=>{p.vy+=.35*devicePixelRatio;p.vx*=.99;p.x+=p.vx;p.y+=p.vy;p.r+=p.vr;p.life++;
+      ctx.save();ctx.translate(p.x,p.y);ctx.rotate(p.r);ctx.fillStyle=p.c;
+      if(p.heart)heart(0,0,p.s);else ctx.fillRect(-p.s/2,-p.s/4,p.s,p.s/2);ctx.restore()});
+    raf=parts.length?requestAnimationFrame(tick):null;
+  }
+})();
+</script>
+
+</html>
